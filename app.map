@@ -1,0 +1,190 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x20000000         0x00010000         xrw
+FLASH            0x08000000         0x00040000         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x20010000                _estack = (ORIGIN (RAM) + LENGTH (RAM))
+                0x00008000                _stack_size = 0x8000
+
+.isr_vector     0x08000000      0x118
+                0x08000000                . = ALIGN (0x4)
+ *(.isr_vector)
+ .isr_vector    0x08000000      0x118 startp.o
+                0x08000000                VactorTableArray
+                0x08000118                . = ALIGN (0x4)
+
+.text           0x08000118      0x108
+                0x08000118                . = ALIGN (0x4)
+ *(.text)
+ .text          0x08000118       0x58 new1.o
+                0x08000118                main
+ .text          0x08000170        0x0 new2.o
+ .text          0x08000170       0xb0 startp.o
+                0x08000170                FLASH_Handler
+                0x08000170                SVCall_Handler
+                0x08000170                DMA2_Stream7_Handler
+                0x08000170                Systick_Handler
+                0x08000170                HardFault_Handler
+                0x08000170                DMA2_Stream3_Handler
+                0x08000170                PendSV_Handler
+                0x08000170                EXTI15_10_Handler
+                0x08000170                ADC_Handler
+                0x08000170                I2C1_EV_Handler
+                0x08000170                I2C3_ER_Handler
+                0x08000170                WWDG_Handler
+                0x08000170                EXTI4_Handler
+                0x08000170                I2C3_EV_Handler
+                0x08000170                DMA1_Stream1_Handler
+                0x08000170                DMA2_Stream4_Handler
+                0x08000170                DMA1_Stream7_Handler
+                0x08000170                OTG_FS_Handler
+                0x08000170                TIM1_BRK_TIM9_Handler
+                0x08000170                I2C1_ER_Handler
+                0x08000170                EXTI16_Handler
+                0x08000170                DMA1_Stream3_Handler
+                0x08000170                UsageFault_Handler
+                0x08000170                TIM1_UP_TIM10_Handler
+                0x08000170                TIM1_CC_Handler
+                0x08000170                I2C2_ER_Handler
+                0x08000170                USART6_Handler
+                0x08000170                DMA1_Stream0_Handler
+                0x08000170                SPI4_Handler
+                0x08000170                EXTI17_Handler
+                0x08000170                EXTI1_Handler
+                0x08000170                OTG_FS_WKUP_Handler
+                0x08000170                EXTI3_Handler
+                0x08000170                EXTI2_Handler
+                0x08000170                EXTI9_5_Handler
+                0x08000170                TIM2_Handler
+                0x08000170                USART1_Handler
+                0x08000170                TIM3_Handler
+                0x08000170                DMA2_Stream6_Handler
+                0x08000170                Default_Handler
+                0x08000170                TIM1_TRG_COM_TIM11_Handler
+                0x08000170                TIM4_Handler
+                0x08000170                SPI2_Handler
+                0x08000170                DMA2_Stream1_Handler
+                0x08000170                DMA1_Stream2_Handler
+                0x08000170                EXTI22_Handler
+                0x08000170                MemManage_Handler
+                0x08000170                EXTI0_Handler
+                0x08000170                DMA2_Stream5_Handler
+                0x08000170                DMA1_Stream6_Handler
+                0x08000170                SDIO_Handler
+                0x08000170                USART2_Handler
+                0x08000170                SPI1_Handler
+                0x08000170                I2C2_EV_Handler
+                0x08000170                DMA2_Stream2_Handler
+                0x08000170                Debug_Monitor_Handler
+                0x08000170                SPI3_Handler
+                0x08000170                DMA2_Stream0_Handler
+                0x08000170                RCC_Handler
+                0x08000170                NMI_Handler_Handler
+                0x08000170                EXTI18_Handler
+                0x08000170                DMA1_Stream5_Handler
+                0x08000170                TIM5_Handler
+                0x08000170                FPU_Handler
+                0x08000170                BusFault_Handler
+                0x08000170                DMA1_Stream4_Handler
+                0x08000170                EXTI21_Handler
+                0x0800017c                Reset_Handler
+                0x08000214                System_Intitialization
+ *(.text*)
+                0x08000220                . = ALIGN (0x4)
+
+.glue_7         0x08000220        0x0
+ .glue_7        0x08000220        0x0 linker stubs
+
+.glue_7t        0x08000220        0x0
+ .glue_7t       0x08000220        0x0 linker stubs
+
+.vfp11_veneer   0x08000220        0x0
+ .vfp11_veneer  0x08000220        0x0 linker stubs
+
+.v4_bx          0x08000220        0x0
+ .v4_bx         0x08000220        0x0 linker stubs
+
+.iplt           0x08000220        0x0
+ .iplt          0x08000220        0x0 new1.o
+
+.newsection     0x08000220       0x24
+                0x08000220                . = ALIGN (0x4)
+ *(.newsection)
+ .newsection    0x08000220       0x24 new1.o
+                0x08000220                sum
+ *(.newsection*)
+                0x08000244                . = ALIGN (0x4)
+
+.rodata         0x08000244        0x4
+                0x08000244                . = ALIGN (0x4)
+ *(.rodata)
+ .rodata        0x08000244        0x4 startp.o
+                0x08000244                ptr_MSPValue
+ *(.rodata*)
+                0x08000248                . = ALIGN (0x4)
+                0x08000248                _sflashdata = LOADADDR (.data)
+
+.rel.dyn        0x08000248        0x0
+ .rel.iplt      0x08000248        0x0 new1.o
+
+.data           0x20000000       0x10 load address 0x08000248
+                0x20000000                _sdata = .
+                0x20000000                . = ALIGN (0x4)
+ *(.data)
+ .data          0x20000000        0x8 new1.o
+                0x20000000                a1
+                0x20000001                b1
+                0x20000004                global
+ .data          0x20000008        0x5 new2.o
+                0x20000008                a2
+                0x2000000c                b2
+ .data          0x2000000d        0x0 startp.o
+ *(.data*)
+                0x20000010                . = ALIGN (0x4)
+ *fill*         0x2000000d        0x3 
+                0x20000010                _edata = .
+
+.igot.plt       0x20000010        0x0 load address 0x08000258
+ .igot.plt      0x20000010        0x0 new1.o
+
+.bss            0x20000010        0xc load address 0x08000258
+                0x20000010                _sbss = .
+                0x20000010                . = ALIGN (0x4)
+ *(.bss)
+ .bss           0x20000010        0x2 new1.o
+                0x20000010                c1
+                0x20000011                d1
+ *fill*         0x20000012        0x2 
+ .bss           0x20000014        0x5 new2.o
+                0x20000014                c2
+                0x20000018                d2
+ .bss           0x20000019        0x0 startp.o
+ *(.bss*)
+                0x2000001c                . = ALIGN (0x4)
+ *fill*         0x20000019        0x3 
+                0x2000001c                _ebss = .
+LOAD new1.o
+LOAD new2.o
+LOAD startp.o
+OUTPUT(app.elf elf32-littlearm)
+LOAD linker stubs
+
+.comment        0x00000000       0x4d
+ .comment       0x00000000       0x4d new1.o
+                                 0x4e (size before relaxing)
+ .comment       0x0000004d       0x4e new2.o
+ .comment       0x0000004d       0x4e startp.o
+
+.ARM.attributes
+                0x00000000       0x2e
+ .ARM.attributes
+                0x00000000       0x2e new1.o
+ .ARM.attributes
+                0x0000002e       0x33 new2.o
+ .ARM.attributes
+                0x00000061       0x2e startp.o

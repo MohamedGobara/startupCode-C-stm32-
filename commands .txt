@@ -1,0 +1,9 @@
+/* compile your c file to o files  */
+arm-none-eabi-gcc -c -mcpu=cortex-m4 -mthumb new1.c -o new1.o
+/* link your .o files to only onefile .o */
+arm-none-eabi-ld    new1.o  new2.o  -o app.o
+/* for view symbol table */
+arm-none-eabi-objdump -t app.o
+/* marge outputs by your linker script file */
+arm-none-eabi-ld  new1.o new2.o -o app.o -T linkerScript.ld
+
